@@ -7,7 +7,7 @@ import pygame
 def print_hi(name):
     # Use a breakpoint in the code line below to debug your script.
     print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
+RESOURCE_PATH = './resources/'
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
@@ -27,6 +27,8 @@ if __name__ == '__main__':
     BLUE = (0, 0, 255)
     YELLOW = (255, 255, 0)
 
+    char = pygame.image.load(RESOURCE_PATH + 'bud.png')
+
     SCREEN.fill(RED)
     pygame.display.flip()
 
@@ -35,6 +37,9 @@ if __name__ == '__main__':
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 is_running = False
+
+            SCREEN.blit(char, (100, 100))
+            pygame.display.update()
 
     pygame.quit()
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
