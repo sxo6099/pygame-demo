@@ -14,8 +14,8 @@ if __name__ == '__main__':
     print_hi('PyCharm')
     pygame.init()
 
-    WIDTH = 300
-    HEIGHT = 200
+    WIDTH = 1920
+    HEIGHT = 1080
     SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 
     pygame.display.set_caption('test')
@@ -28,8 +28,8 @@ if __name__ == '__main__':
     YELLOW = (255, 255, 0)
 
     char = pygame.image.load(RESOURCE_PATH + 'bud.png')
-
-    SCREEN.fill(RED)
+    bg = pygame.image.load(RESOURCE_PATH + 'background.png')
+    SCREEN.fill(BLACK)
     pygame.display.flip()
 
     is_running = True
@@ -38,8 +38,25 @@ if __name__ == '__main__':
             if event.type == pygame.QUIT:
                 is_running = False
 
+            SCREEN.blit(bg, (0,0))
+            pygame.display.update()
             SCREEN.blit(char, (100, 100))
             pygame.display.update()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT or event.key == ord('a'):
+                    print('left')
+                if event.key == pygame.K_RIGHT or event.key == ord('d'):
+                    print('right')
+                if event.key == pygame.K_UP or event.key == ord('w'):
+                    print('jump')
+
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT or event.key == ord('a'):
+                    print('left stop')
+                if event.key == pygame.K_RIGHT or event.key == ord('d'):
+                    print('right stop')
+                if event.key == ord('q'):
+                    is_running = False
 
     pygame.quit()
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
