@@ -50,6 +50,7 @@ if __name__ == '__main__':
     SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 
     pygame.display.set_caption('test')
+    clock = pygame.time.Clock()
 
     WHITE = (255, 255, 255)
     BLACK = (0, 0, 0)
@@ -87,15 +88,30 @@ if __name__ == '__main__':
                     print('right')
                     player.control(5, 0)
                 if event.key == pygame.K_UP or event.key == ord('w'):
-                    print('jump')
+                    print('up')
+                    player.control(0, 5)
+                if event.key == pygame.K_DOWN or event.key == ord('s'):
+                    print('down')
+                    player.control(0, -5)
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == ord('a'):
                     print('left stop')
+                    player.control(5, 0)
                 if event.key == pygame.K_RIGHT or event.key == ord('d'):
                     print('right stop')
+                    player.control(-5, 0)
+                if event.key == pygame.K_UP or event.key == ord('w'):
+                    print('up stop')
+                    player.control(0, -5)
+                if event.key == pygame.K_DOWN or event.key == ord('s'):
+                    print('down stop')
+                    player.control(0, 5)
                 if event.key == ord('q'):
                     is_running = False
+        player.update()
+        pygame.display.flip()
+        clock.tick(30)
 
 
     pygame.quit()
