@@ -23,11 +23,13 @@ class projectile(pygame.sprite.Sprite):
         """
         control player movement
         """
-        self.movex += x
-        self.movey += y
+        self.movex = x
+        self.movey = y
     def update(self):
         """
         Update sprite position
         """
-        self.rect.x = self.rect.x + self.movex
-        self.rect.y = self.rect.y + self.movey
+        self.rect.x = self.movex
+        self.movex = 0;
+        self.rect.y = self.movey
+        self.movey = 0;
