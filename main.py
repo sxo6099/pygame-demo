@@ -4,41 +4,13 @@
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
 import pygame
+import Player
+import Projectile
+
 def print_hi(name):
     # Use a breakpoint in the code line below to debug your script.
     print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
 RESOURCE_PATH = './resources/'
-
-class Player(pygame.sprite.Sprite):
-    """
-    Spawn a player
-    """
-
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.movex = 0  # move along X
-        self.movey = 0  # move along Y
-        self.frame = 0  # count frames
-        self.images = []
-
-        img = pygame.image.load(RESOURCE_PATH + 'bud.png')
-        self.images.append(img)
-        self.image = self.images[0]
-        self.rect = self.image.get_rect()
-
-    def control(self, x, y):
-        """
-        control player movement
-        """
-        self.movex += x
-        self.movey += y
-
-    def update(self):
-        """
-        Update sprite position
-        """
-        self.rect.x = self.rect.x + self.movex
-        self.rect.y = self.rect.y + self.movey
 
     # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
@@ -59,7 +31,8 @@ if __name__ == '__main__':
     BLUE = (0, 0, 255)
     YELLOW = (255, 255, 0)
 
-    player = Player()
+    player = Player.player()
+    blob = Projectile.projectile()
     bg = pygame.image.load(RESOURCE_PATH + 'background.png')
     SCREEN.fill(BLACK)
     pygame.display.flip()
@@ -68,6 +41,7 @@ if __name__ == '__main__':
     player.rect.y = 50  # go to y
     player_list = pygame.sprite.Group()
     player_list.add(player)
+    player_list.add(blob)
 
     is_running = True
     while is_running:
@@ -89,10 +63,14 @@ if __name__ == '__main__':
                     player.control(5, 0)
                 if event.key == pygame.K_UP or event.key == ord('w'):
                     print('up')
-                    player.control(0, 5)
+                    player.control(0, -5) #flipped because array of pixels?
                 if event.key == pygame.K_DOWN or event.key == ord('s'):
                     print('down')
-                    player.control(0, -5)
+                    player.control(0, 5)
+                if event.key == pygame.K_SPACE:
+                    print('space')
+                    blob.control(player.rect.x, player.rect.y)
+                    blob.update()
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == ord('a'):
@@ -103,10 +81,10 @@ if __name__ == '__main__':
                     player.control(-5, 0)
                 if event.key == pygame.K_UP or event.key == ord('w'):
                     print('up stop')
-                    player.control(0, -5)
+                    player.control(0, 5)
                 if event.key == pygame.K_DOWN or event.key == ord('s'):
                     print('down stop')
-                    player.control(0, 5)
+                    player.control(0, -5)
                 if event.key == ord('q'):
                     is_running = False
         player.update()
