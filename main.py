@@ -4,21 +4,25 @@
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
 import pygame
+
+import Enemy
 import Player
 import Projectile
+
+RESOURCE_PATH = './resources/'
+
+WIDTH = 1920
+HEIGHT = 1080
 
 def print_hi(name):
     # Use a breakpoint in the code line below to debug your script.
     print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-RESOURCE_PATH = './resources/'
 
     # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     print_hi('PyCharm')
     pygame.init()
-
-    WIDTH = 1920
-    HEIGHT = 1080
+    pygame.mixer.music.load(RESOURCE_PATH + '01 - Overture.mp3')
     SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 
     pygame.display.set_caption('test')
@@ -33,17 +37,23 @@ if __name__ == '__main__':
 
     player = Player.player()
     blob = Projectile.projectile()
+    orc = Enemy.orc()
     bg = pygame.image.load(RESOURCE_PATH + 'background.png')
     SCREEN.fill(BLACK)
     pygame.display.flip()
 
     player.rect.x = 50  # go to x
     player.rect.y = 50  # go to y
+    orc.rect.x = WIDTH - 500
+    orc.rect.y = HEIGHT - 500
     player_list = pygame.sprite.Group()
     player_list.add(player)
     player_list.add(blob)
+    player_list.add(orc)
 
     is_running = True
+    pygame.mixer.music.set_volume(.02)
+    pygame.mixer.music.play()
     while is_running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -54,6 +64,8 @@ if __name__ == '__main__':
             player_list.draw(SCREEN)
             pygame.display.update()
             player.update()
+            if pygame.sprite.collide_rect(orc, blob):
+                orc.kill()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT or event.key == ord('a'):
                     print('left')
@@ -88,6 +100,7 @@ if __name__ == '__main__':
                 if event.key == ord('q'):
                     is_running = False
         player.update()
+        orc.update()
         pygame.display.flip()
         clock.tick(30)
 
